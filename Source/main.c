@@ -1,11 +1,11 @@
-#include "base.h"
+#include "main.h"
 
 int main(void)
 {
     SystemInit();
     LED_Init();
     BTNs_Init();
-    RIT_Init(50, 25);
+    RIT_Init(50, 25, NULL);
     RIT_Enable();
 
     // your code
