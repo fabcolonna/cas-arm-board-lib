@@ -11,18 +11,12 @@ struct timer_opaque
 
 // FUNCTIONS
 
-void TIMER_Init(_OUT TIMER *const timer, u8 which, _NULLABLE u32 *const prescaler, u16 int_priority);
+void TIMER_Init(_OUT TIMER *const timer, u8 which, _NULLABLE u32 *const prescaler, _NULLABLE u16 *const int_priority);
 {
     if (!timer)
         return;
 
-    u16 prio;
-    if (int_priority > 15)
-        prio = 15;
-    else if (int_priority < 0)
-        prio = 0;
-    else
-        prio = int_priority;
+    bool valid_prio = int_priority && IS_BETWEEN_EQ(*int_priority, 0, 15);
 
     switch (which)
     {
@@ -31,28 +25,36 @@ void TIMER_Init(_OUT TIMER *const timer, u8 which, _NULLABLE u32 *const prescale
             LPC_TIM0->PR = *prescaler;
 
         NVIC_EnableIRQ(TIMER0_IRQn);
-        NVIC_SetPriority(TIMER0_IRQn, prio);
+
+        if (valid_prio)
+            NVIC_SetPriority(TIMER0_IRQn, *int_priority);
         break;
     case 1:
         if (prescaler)
             LPC_TIM1->PR = *prescaler;
 
         NVIC_EnableIRQ(TIMER1_IRQn);
-        NVIC_SetPriority(TIMER1_IRQn, prio);
+
+        if (valid_prio)
+            NVIC_SetPriority(TIMER1_IRQn, *int_priority);
         break;
     case 2:
         if (prescaler)
             LPC_TIM2->PR = *prescaler;
 
         NVIC_EnableIRQ(TIMER2_IRQn);
-        NVIC_SetPriority(TIMER2_IRQn, prio);
+
+        if (valid_prio)
+            NVIC_SetPriority(TIMER2_IRQn, *int_priority);
         break;
     case 3:
         if (prescaler)
             LPC_TIM3->PR = *prescaler;
 
         NVIC_EnableIRQ(TIMER3_IRQn);
-        NVIC_SetPriority(TIMER3_IRQn, prio);
+
+        if (valid_prio)
+            NVIC_SetPriority(TIMER3_IRQn, *int_priority);
         break;
     default:
         timer = NULL; // Invalid timer number

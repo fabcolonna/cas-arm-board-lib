@@ -7,6 +7,9 @@ typedef uint32_t u32;
 typedef uint16_t u16;
 typedef uint8_t u8;
 
+#define IS_BETWEEN_EQ(value, low, hi) ((value) >= (low) && (value) <= (hi)
+#define IS_BETWEEN(value, low, hi) ((value) > (low) && (value) < (hi))
+
 #define SET_BIT(reg, bit) (reg |= (1 << bit))
 #define CLR_BIT(reg, bit) (reg &= ~(1 << bit))
 

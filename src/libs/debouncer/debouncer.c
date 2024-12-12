@@ -2,7 +2,7 @@
 #include "LPC17xx.h"
 #include "utils.h"
 
-void RIT_Init(u32 ival_ms, u32 pclk_mhz)
+void RIT_Init(u32 ival_ms, u32 pclk_mhz, _NULLABLE u16 *const int_priority)
 {
     CLR_BITS(LPC_SC->PCLKSEL1, 3, 26);
     SET_BIT(LPC_SC->PCKLSEL1, 26);
@@ -14,6 +14,9 @@ void RIT_Init(u32 ival_ms, u32 pclk_mhz)
 
     // Enabling interrupts coming from RIT
     NVIC_EnableIRQ(RIT_IRQn);
+
+    if (int_priority && IS_BETWEEN_EQ(*int_priority, 0, 15))
+        NVIC_SetPriority(RIT_IRQn, *int_priority);
 }
 
 void RIT_Enable(void)

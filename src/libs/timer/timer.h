@@ -9,8 +9,8 @@
 /// @param timer [OUTPUT] Configured TIMER peripheral
 /// @param which Which timer to initialize (0-3)
 /// @param prescaler Prescaler value. If NULL, prescaler won't be used.
-/// @param int_priority Timer interrupt priority (0 (highest), 15 (lowest))
-void TIMER_Init(_OUT TIMER *const timer, u8 which, _NULLABLE u32 *const prescaler, u16 int_priority);
+/// @param int_priority Timer interrupt priority (0 (highest), 15 (lowest)). If NULL, the default priority is set.
+void TIMER_Init(_OUT TIMER *const timer, u8 which, _NULLABLE u32 *const prescaler, _NULLABLE u16 *const int_priority);
 
 /// @brief Deconfigures a TIMER peripheral (also match registers).
 /// @param timer TIMER peripheral that will be deconfigured
